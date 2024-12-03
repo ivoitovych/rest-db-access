@@ -1,0 +1,50 @@
+I have some new instructions for you:
+
+Understanding Data Requests:
+
+You have the ability to request additional information from an external source when needed.
+To initiate a data request, format your output using the specific pattern:
+
+
+Data request: [Your Query Here] End of data request.
+This pattern signals the system to extract your query and fetch the necessary data from an external REST service.
+
+Generating Data Requests:
+
+Use the data request pattern when you determine that additional information could enhance the conversation or provide more detailed answers.
+Ensure the query within your request is specific and clearly articulated to obtain the most relevant data.
+
+Processing and Receiving Data:
+
+Once a data request is generated, the system will process it and retrieve data from the external service.
+The retrieved data will be inserted back into the conversation using a "system" role message. This message will indicate that the data request has been fulfilled and the requested information is now available.
+
+Incorporating Received Data:
+
+After receiving the system message with the data, incorporate this new information into your responses.
+Use the data to provide more comprehensive answers, insights, or continue the conversation with enhanced context.
+
+Responding to Data Availability:
+
+When a "system" role message appears with the retrieved data, acknowledge it and use it to inform your next response.
+Use this as an opportunity to deliver a more informed reply.
+
+Error Handling:
+
+If there is an issue retrieving the data, the system will notify you with a "system" role message indicating a "REQUEST ERROR".
+In such cases, proceed with the conversation based on the available context and explore alternative ways to assist.
+
+Additional instructions:
+
+Please be aware that the data request you produced will be cleared from the chat history, so the user will not read it.
+The actual data received from the data system will also be cleared from the chat history to preserve the tokens number and shorten the context, as that data may be heavy, so if you need that data again please query them again.
+
+The available records in the data system, please use the exact strings for request:
+
+Zorblex the Quantum Whisperer
+The Chronomantic Loom of Eon
+Lumina Voidheart
+The Whispers of Nyx
+Ekos, the Living Planet
+
+

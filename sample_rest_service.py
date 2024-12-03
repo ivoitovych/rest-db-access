@@ -1,34 +1,32 @@
 from flask import Flask, jsonify, request
-import random
-import string
+import json
+import sys
 
 app = Flask(__name__)
 
-def generate_random_name():
-    return ''.join(random.choices(string.ascii_uppercase, k=5))
+# Load the database from a JSON file passed as a command-line argument
+def load_database(file_path):
+    with open(file_path, 'r') as file:
+        return json.load(file)
 
-def generate_mysterious_story(query):
-    characters = [generate_random_name() for _ in range(3)]
-    locations = [generate_random_name() for _ in range(2)]
-    artifacts = [generate_random_name() for _ in range(2)]
+# Load the database
+if len(sys.argv) != 2:
+    print("Usage: python sample_rest_service.py <path_to_json_file>")
+    sys.exit(1)
 
-    story = (
-        f"In the ancient lands of {locations[0]}, a mysterious figure known as {characters[0]} "
-        f"discovered the forgotten city of {locations[1]}. Legends spoke of the {artifacts[0]}, "
-        f"a powerful relic sought by many but found by few. {characters[1]}, a wanderer from the east, "
-        f"joined forces with {characters[2]} to unravel the secrets of {artifacts[1]}, "
-        f"hidden deep within the labyrinths of time. But as they drew closer, the shadows of the past "
-        f"began to stir, revealing truths that could change the fate of all who dared to seek the unknown. "
-        f"Their quest was driven by a singular purpose: {query}."
-    )
+database = load_database(sys.argv[1])
 
-    return story
-
-@app.route('/mysterious-story', methods=['GET'])
-def get_mysterious_story():
-    query = request.args.get('query', 'an unknown purpose')
-    story = generate_mysterious_story(query)
-    return jsonify({'story': story})
+@app.route('/data-request', methods=['GET'])
+def get_story():
+    # Get the query parameter for the name
+    query_name = request.args.get('query', '').strip()
+    
+    # Find the story for the given name
+    for item in database:
+        if item['name'].lower() == query_name.lower():
+            return jsonify({'story': item['story']})
+    
+    return jsonify({'story': 'No story found for the requested entity.'})
 
 if __name__ == '__main__':
     app.run(debug=True)
